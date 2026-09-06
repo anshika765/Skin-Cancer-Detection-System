@@ -28,19 +28,15 @@ An end-to-end medical AI application that classifies dermatoscope skin lesion im
 ## 📁 Project Structure
 ```text
 Skin_Cancer_Detection/
-├── dataset/                    # ISIC Dataset (Train & Test folders)
+├── dataset/                     # ISIC Dataset (Train & Test folders)
 ├── static/
 │   ├── css/
-│   │   └── style.css          # Glassmorphism Dark-Mode styling
-│   └── uploads/               # Temporary uploads
+│   │   └── style.css           # Glassmorphism Dark-Mode styling
+│   └── uploads/                # Temporary uploads
 ├── templates/
-│   └── index.html             # Diagnostic Dashboard UI
-├── train.py                   # Transfer Learning pipeline & metrics
-├── app.py                     # Flask inference backend
-├── requirements.txt           # Python dependencies
-├── confusion_matrix.png       # Test evaluation heatmap
+│   └── index.html              # Diagnostic Dashboard UI
+├── train.py                    # Transfer Learning pipeline & metrics
+├── app.py                      # Flask inference backend
+├── requirements.txt            # Python dependencies
+├── confusion_matrix.png        # Test evaluation heatmap
 └── skin_cancer_best_model.keras # Serialized weights file
-
-## 💾 Dataset Link
-The model was trained on the official ISIC Skin Lesion dataset. You can download the dataset directly from Kaggle / ISIC Archive:
-* [Download ISIC Skin Cancer Dataset on Kaggle](https://www.kaggle.com/datasets/nodoubttome/skin-cancer-isic-the-international-skin-imaging-collaboration)
