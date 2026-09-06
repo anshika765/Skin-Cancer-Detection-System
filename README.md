@@ -4,6 +4,11 @@ An end-to-end medical AI application that classifies dermatoscope skin lesion im
 
 ---
 
+## 🌐 Live Web Application
+* **Production URL:** [https://skin-cancer-detection-system-i5k9.onrender.com/](https://skin-cancer-detection-system-i5k9.onrender.com/)
+
+---
+
 ## 📌 Project Overview
 * **Architecture:** MobileNetV2 pretrained on ImageNet
 * **Training Strategy:** 2-Phase Training (Classifier Head Training followed by Fine-Tuning with frozen BatchNormalization layers for stability)
@@ -38,5 +43,6 @@ Skin_Cancer_Detection/
 ├── train.py                    # Transfer Learning pipeline & metrics
 ├── app.py                      # Flask inference backend
 ├── requirements.txt            # Python dependencies
+├── .python-version             # Pinned Python runtime for cloud deployment
 ├── confusion_matrix.png        # Test evaluation heatmap
 └── skin_cancer_best_model.keras # Serialized weights file
