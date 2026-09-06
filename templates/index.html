@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DermAI | Intelligent Skin Lesion Diagnostics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="badge"><i class="fa-solid fa-shield-virus"></i> Clinical AI Assistant</div>
+            <h1>Skin Lesion Analyzer</h1>
+            <p>Deep Learning multi-class dermatoscopic diagnostic assistant powered by MobileNetV2 architecture.</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="glass-card main-card">
+            <!-- Upload Area -->
+            <form action="/" method="POST" enctype="multipart/form-data" id="upload-form">
+                <div class="dropzone" id="dropzone" onclick="document.getElementById('file-input').click();">
+                    <input type="file" name="image" id="file-input" accept="image/*" required onchange="showPreview(event)">
+                    <div class="dropzone-content" id="dropzone-content">
+                        <div class="upload-icon-circle">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3>Upload Dermatoscope Scan</h3>
+                        <p>Drag & drop image here, or <span>browse files</span></p>
+                        <span class="file-hint">Supports JPG, PNG, WEBP (Clinical dermoscopy format)</span>
+                    </div>
+                    <img id="image-preview" class="image-preview hidden" alt="Uploaded Preview">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-analyze" id="analyze-btn">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Run Diagnostic Inference
+                    </button>
+                </div>
+            </form>
+
+            {% if error %}
+            <div class="alert alert-error">
+                <i class="fa-solid fa-triangle-exclamation"></i> {{ error }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if prediction %}
+        <!-- Results Section -->
+        <div class="glass-card result-section">
+            <div class="result-header">
+                <div>
+                    <span class="section-tag">Analysis Complete</span>
+                    <h2>Diagnostic Summary</h2>
+                </div>
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span> Real-Time Output
+                </div>
+            </div>
+
+            <div class="result-grid">
+                <!-- Image Card -->
+                <div class="preview-panel">
+                    <div class="img-wrapper">
+                        <img src="{{ image_url }}" alt="Diagnosed Lesion">
+                    </div>
+                    <div class="img-caption">
+                        <i class="fa-solid fa-circle-info"></i> Processed input $(224 \times 224)$
+                    </div>
+                </div>
+
+                <!-- Metrics & Predictions -->
+                <div class="metrics-panel">
+                    <div class="top-prediction-card">
+                        <div class="pred-label">Primary Suspected Pathology</div>
+                        <div class="pred-value">{{ prediction }}</div>
+                        <div class="confidence-box">
+                            <span>Diagnostic Confidence:</span>
+                            <strong>{{ confidence }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="distribution-card">
+                        <h3>Probability Distribution Across 9 Classes</h3>
+                        <div class="progress-list">
+                            {% for item in scores %}
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="class-name">{{ item.name }}</span>
+                                    <span class="class-val">{{ item.prob }}%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-fill" style="width: {{ item.prob }}%;"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function showPreview(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('image-preview');
+                    const content = document.getElementById('dropzone-content');
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    content.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
